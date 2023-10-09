@@ -16705,7 +16705,7 @@ const composer = (status, event) => {
                     commitList += `\n ${index++}- [${message.replace(/[\r\n]+/g, " ")}](${url}) by [${name}](${committerURL})`
                 }
 
-                return `🆕 new changes pushed to [${branchName}](${branchURL}) \n total commits: ${commits.length} ${commitList}`;
+                return `🆕 new changes pushed to [${ref}](${branchURL}) \n total commits: ${commits.length} ${commitList}`;
             }
         },
         "pull_request_review_comment": {
