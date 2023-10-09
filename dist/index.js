@@ -16680,7 +16680,7 @@ const composer = (status, event) => {
         },
         "pull_request": {
             fn: () => {
-                const { repository: { owner: ownner, name: repoName}, pull_request: { number, html_url: prURL } } = github.context?.payload;
+                const { repository: { owner: owner, name: repoName}, pull_request: { number, html_url: prURL } } = github.context?.payload;
                 if (action === 'create') {
                     return `📦 PR [${owner}/${repoName} #${number}](${prURL}) has been created`;
                 } if (action === 'ready_for_review') {
@@ -16694,7 +16694,7 @@ const composer = (status, event) => {
         },
         "push": {
             fn: () => {
-                const { ref, commits, repository: { owner: ownner, name: repoName, html_url: repoURL } } = github.context?.payload;
+                const { ref, commits, repository: { owner: owner, name: repoName, html_url: repoURL } } = github.context?.payload;
                 const branchName = ref.split('/').reverse()[0];
                 const branchURL = `${repoURL}/tree/${branchName}`
                 let commitList = ``;
@@ -16710,7 +16710,7 @@ const composer = (status, event) => {
         },
         "pull_request_review_comment": {
             fn: () => {
-                const { repository: { owner: ownner, name: repoName}, pull_request: { number, html_url: prURL } } = github.context?.payload;
+                const { repository: { owner: owner, name: repoName}, pull_request: { number, html_url: prURL } } = github.context?.payload;
                 return `📦  PR review comment on [${owner}/${repoName} #${number}](${prURL}) has been ${action}`;
             }
         },
