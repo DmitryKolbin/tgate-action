@@ -16680,21 +16680,21 @@ const composer = (status, event) => {
         },
         "pull_request": {
             fn: () => {
-                const { repository: { owner: owner, name: repoName}, pull_request: { number, html_url: prURL } } = github.context?.payload;
+                const { repository: { owner: {login}, name: repoName}, pull_request: { number, html_url: prURL } } = github.context?.payload;
                 if (action === 'create') {
-                    return `📦 PR [${owner}/${repoName} #${number}](${prURL}) has been created`;
+                    return `📦 PR [${login}/${repoName} #${number}](${prURL}) has been created`;
                 } if (action === 'ready_for_review') {
-                    return `📦 PR [${owner}/${repoName} #${number}](${prURL}) is now ready for review`;
+                    return `📦 PR [${login}/${repoName} #${number}](${prURL}) is now ready for review`;
                 } if (action === 'review_requested') {
-                    return `📦 review is requested on PR [${owner}/${repoName} #${number}](${prURL})`;
+                    return `📦 review is requested on PR [${login}/${repoName} #${number}](${prURL})`;
                 } else {
-                    return `📦 PR [${owner}/${repoName} #${number}](${prURL}) has been ${action}`;
+                    return `📦 PR [${login}/${repoName} #${number}](${prURL}) has been ${action}`;
                 }
             }
         },
         "push": {
             fn: () => {
-                const { ref, commits, repository: { owner: owner, name: repoName, html_url: repoURL } } = github.context?.payload;
+                const { ref, commits, repository: { owner: {login}, name: repoName,  html_url: repoURL } } = github.context?.payload;
                 const branchName = ref.split('/').reverse()[0];
                 const branchURL = `${repoURL}/tree/${branchName}`
                 let commitList = ``;
@@ -16705,13 +16705,13 @@ const composer = (status, event) => {
                     commitList += `\n ${index++}- [${message.replace(/[\r\n]+/g, " ")}](${url}) by [${name}](${committerURL})`
                 }
 
-                return `🆕 new changes pushed to [${owner}/${repoName} ${branchName}](${branchURL}) \n total commits: ${commits.length} ${commitList}`;
+                return `🆕 new changes pushed to [${login}/${repoName} ${branchName}](${branchURL}) \n total commits: ${commits.length} ${commitList}`;
             }
         },
         "pull_request_review_comment": {
             fn: () => {
-                const { repository: { owner: owner, name: repoName}, pull_request: { number, html_url: prURL } } = github.context?.payload;
-                return `📦  PR review comment on [${owner}/${repoName} #${number}](${prURL}) has been ${action}`;
+                const { repository: { owner: {login}, name: repoName}, pull_request: { number, html_url: prURL } } = github.context?.payload;
+                return `📦  PR review comment on [${login}/${repoName} #${number}](${prURL}) has been ${action}`;
             }
         },
         "default": {
