@@ -150,6 +150,22 @@ const composer = (status, event) => {
                 return `📦  PR review comment on [${login}/${repoName} #${number}](${prURL}) has been ${action}`;
             }
         },
+        "release": {
+            fn: () => {
+                const { ref, commits, repository: { owner: {login}, name: repoName,  html_url: repoURL } } = context?.payload;
+                const tageName = ref.split('/').reverse()[0];
+                const tagUrl = `${repoURL}/tree/${tageName}`
+                let commitList = ``;
+                let index = 1;
+                for (let commit of commits) {
+                    const { url, message, committer: { name, username } } = commit;
+                    const committerURL = `https://github.com/${username}`;
+                    commitList += `\n ${index++}- [${message.replace(/[\r\n]+/g, " ")}](${url}) by [${name}](${committerURL})`
+                }
+
+                return `🆕 new release [${login}/${repoName} ${tageName}](${tagUrl}) \n total commits: ${commits.length} ${commitList}`;
+            }
+        },
         "default": {
             fn: () => {
                 return `something went wrong! I couldn't find the event ${event}!`;
