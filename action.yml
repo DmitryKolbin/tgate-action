@@ -16,8 +16,8 @@ inputs:
   disable_notification:
     description: 'disables notifications for this message, supports sending a message without notification.'
   status: 
-    description: 'Job status'
-    default: ${{ job.status }}
+    description: 'action status'
+    default: ${{ github.action_status }}
   event: 
     description: 'Event triggered action'
     default: ${{ github.event_name }}
