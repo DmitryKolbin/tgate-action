@@ -16716,11 +16716,12 @@ const composer = (status, event) => {
         },
         "release": {
             fn: () => {
-                const { ref, repository: { owner: {login}, name: repoName,  html_url: repoURL } } = github.context?.payload;
+                const { ref, repo: { owner , repo } } = github.context;
+                const repoURL = `github.com/${owner}/${repo}`
                 const tageName = ref.split('/').reverse()[0];
                 const tagUrl = `${repoURL}/tree/${tageName}`
 
-                return `🆕 new release [${login}/${repoName} ${tageName}](${tagUrl})`;
+                return `🆕 new release [${owner}/${repo} ${tageName}](${tagUrl})`;
             }
         },
         "default": {
