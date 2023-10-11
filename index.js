@@ -152,18 +152,11 @@ const composer = (status, event) => {
         },
         "release": {
             fn: () => {
-                const { ref, commits, repository: { owner: {login}, name: repoName,  html_url: repoURL } } = context?.payload;
+                const { ref, repository: { owner: {login}, name: repoName,  html_url: repoURL } } = context?.payload;
                 const tageName = ref.split('/').reverse()[0];
                 const tagUrl = `${repoURL}/tree/${tageName}`
-                let commitList = ``;
-                let index = 1;
-                for (let commit of commits) {
-                    const { url, message, committer: { name, username } } = commit;
-                    const committerURL = `https://github.com/${username}`;
-                    commitList += `\n ${index++}- [${message.replace(/[\r\n]+/g, " ")}](${url}) by [${name}](${committerURL})`
-                }
 
-                return `🆕 new release [${login}/${repoName} ${tageName}](${tagUrl}) \n total commits: ${commits.length} ${commitList}`;
+                return `🆕 new release [${login}/${repoName} ${tageName}](${tagUrl})`;
             }
         },
         "default": {
